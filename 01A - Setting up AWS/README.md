@@ -1,3 +1,5 @@
+[DRAFT]
+
 # 01A - Setting up AWS
 
 In this step you will set up your own AWS account and cloud resources necessary for automating thumbnail generation. For this step, please read over all of the instructions first before proceeding.
@@ -74,7 +76,7 @@ Once the bucket is created, create a folder called `images` and another called `
 
 ## Install AWS CLI
 
-Install the AWS command line interface ([instructions](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)).
+Install the AWS command line interface ([instructions](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)). This is a very handy tool to interact with AWS' API. It's often used for debugging and automation.
 
 Configure AWS CLI. You will need to configure the CLI to use your credentials for both your power user and `thumbnail-service` user:
 
