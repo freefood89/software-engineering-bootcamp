@@ -1,29 +1,31 @@
-[DRAFT]
-
 # 01A - Setting up AWS
 
 In this step you will set up your own AWS account and cloud resources necessary for automating thumbnail generation. For this step, please read over all of the instructions first before proceeding.
+
+The instructions for this step are purposefully vauge because a part of this challenge is learning to read AWS documentation and learning how to ask questions.
 
 ## Account Setup
 
 1. Create a new AWS account. This may take a while.
 2. Secure your root account with MFA such as Google Authenticator.
 3. Create a user with both programmatic access and AWS management console access. This will be how you will log in and access AWS. During this process you will also create a group with permissions. You can simply use the policy `PowerUserAccess`, which is an AWS managed policy that bundles permissions for pretty much everything except Administratice permissions. Finally, you will be presented with the access key for this user. Click 'Download CSV' to get credentials. Do not share or lose this file!
-4. Log out of Root Account and Log in using the new credentials you have just created.
+4. Log out of Root Account and Log in using the new credentials you have just created. 
 
 ## Configuring Resources
 
-Before you start, set the region in the top right of the console to 'N. Virginia' to set the AWS region to `us-east-1`. Alternatively, you can just go to the following address: [https://console.aws.amazon.com/console/home?region=us-east-1](https://console.aws.amazon.com/console/home?region=us-east-1). We will be working exclusively in this region to avoid confusion. For more on AWS regions read their documentation ([docs](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/)).
+Before you start, set the region in the top right of the console to 'N. Virginia' to set the AWS region to `us-east-1`. Alternatively, you can just go to the following address: [https://console.aws.amazon.com/console/home?region=us-east-1](https://console.aws.amazon.com/console/home?region=us-east-1). We will be working exclusively in this region for simplicity. For more on AWS regions read the documentation ([docs](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/)).
 
 ### IAM Service Account
 
 Note: This step will require you to log back into the root account.
 
+In this step you will create a _Service Account_ with specific access to interact with certain cloud resources. This way if your application is compromised you can limit the affected systems within a smaller blast radius.
+
 1. Create an IAM User named `thumbnail-service` with only programmatic access.
 2. Add the following permissions directly to the User:
    - AmazonSQSFullAccess
    - AmazonS3FullAccess
-3. Save the credentials file
+3. Save the credentials file containing the API Key and Secret.
 
 ### S3 Bucket
 
@@ -39,6 +41,8 @@ Create an S3 bucket with a unique bucket name. This is where all of your images 
 Once the bucket is created, create a folder called `images` and another called `thumbnails`. The URLs for those folders are `s3://<bucket_name>/images` and `s3://<bucket_name>/thumbnails` respectively.
 
 ### SQS Queue
+
+You will be using SQS (Simple Queue Service) as an event bus to schedule workloads. The queue will receive a message every time an image is uploaded to `s3://<bucket_name>/images`.
 
 1. Navigate to SQS (Simple Queue Service) and click Create New Queue
 2. Name it `thumbnail-uploads` select Standard Queue and click Quick Create
