@@ -1,61 +1,9 @@
-# 00B - Persisting Data
+# 00C - Synthesis
 
-Persistence is typically necessary for any application and comes in many forms such as File Systems, Document Stores, Key Value Stores and so on. Here we explore how to use a Relational Database with an SQL interface using an Object Relational Mapping (ORM) tool.
-
-You will write a program that will declaratively configure the database with an table for images, insert a row into it and print the rows.
-
-## Parts
-
-The builtin python function `input()`
-
-The database engine `SQLite` ([docs](https://www.sqlite.org/index.html)) will be used to track the mapping between images and thumbnails.
-
-The python module `SQLAlchemy` ([docs](https://www.sqlalchemy.org/)) will be used to help you interact with the SQLite.
+Now that you have written a program that can generate thumbnails given any filename and a program that stores a mapping from the original image to the thumbnail, it's time to put them together. The goal of this step is to combine the logic from the previous steps to create a system that, given a image filename, generates a thumbnail and stores a reference to that in a database
 
 ## Specification
 
-Write a program that prompts the user for a filename and inserts that into the database.
-
-Write a program that prompts the user for a filename and uses `filter_by`  to find all the row items with that filename.
-
-## Appendix
-
-### ORM for images table
-
-The following can be used to define and create a table. 
-
-```python
-from sqlalchemy import create_engine
-from sqlalchemy import Column, String, Integer
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
-
-class Image(Base):
-	__tablename__ = 'images'
-
-	id = Column(Integer, primary_key=True)
-	filename = Column(String)
-
-	def __repr__(self):
-		return "Image<id={id}, filename='{filename}'>".format(
-			id=self.id, 
-			filename=self.filename
-		)
-
-engine = create_engine('sqlite+pysqlite:///local.db')
-Base.metadata.create_all(engine)
-```
-
-### Writing to SQLite
-
-```python
-from sqlalchemy.orm import sessionmaker
-engine = create_engine('sqlite+pysqlite:///local.db')
-Session = sessionmaker(bind=engine)
-session = Session()
-
-image = Image(filename='test.jpg')
-session.add(image)
-session.commit()
-```
+- The program should not crash if an image with the provided filename does not exist.
+- The program should not crash if the provided filename is for a file that is not an image
+- The program should overwrite thumbnails of images that have already been processed if it's run multiple times
