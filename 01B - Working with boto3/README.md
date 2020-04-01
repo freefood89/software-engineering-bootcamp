@@ -1,6 +1,6 @@
 # 01A - Working with boto3
 
-In this step you will write two programs using `boto3` to programmatically call AWS APIs. The first will upload constants to S3 and the other will trigger every time a message is queued onto SQS.
+In this step you will use `boto3` to programmatically call AWS APIs. The first will upload images to S3 and the other will trigger every time a message is queued onto SQS.
 
 ## Parts
 
@@ -96,6 +96,6 @@ In regular polling a client program periodically makes requests to a server with
 
 ## Challenge
 
-Using the template code in `main.py` write a program that creates thumbnails of images from `s3://<bucket_name>/images/` automatically when it is uploaded and upload them to `s3://<bucket_name>/thumbnails`. Use long polling to wait on messages from SQS using `sqs.receive_messages` with `WaitTimeSeconds`. When the thumbnail is generated and uploaded make sure to delete the message from the queue so it does not get processed again.
+Using the template code in `main.py` write a program that creates thumbnails of images from `s3://<bucket_name>/images/` automatically when it is uploaded and upload them to `s3://<bucket_name>/thumbnails`. Use long polling to wait on messages from SQS using `sqs.receive_messages` with `WaitTimeSeconds`. When the thumbnail is generated and uploaded make sure to delete the message from the queue so it does not get processed again. It is highly recommended that you set `MaxNumberOfMessages=1`.
 
-- Recommendation - set `MaxNumberOfMessages=1`
+Try to understand the new concepts sprinkled throughout the template.

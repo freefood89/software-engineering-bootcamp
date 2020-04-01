@@ -5,9 +5,9 @@ from io import BytesIO
 from PIL import Image
 from urllib.parse import unquote_plus
 
-BUCKET_NAME = 'gg-thumbnail-project'
+BUCKET_NAME = '<bucket_name>'
 OUTPUT_FOLDER = 'thumbnails'
-QUEUE_URL = 'https://queue.amazonaws.com/811811421150/thumbnail-uploads'
+QUEUE_URL = '<queue_url>'
 
 session = boto3.Session(profile_name='thumbnail-service')
 s3 = session.client('s3')
