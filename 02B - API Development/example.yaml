@@ -1,0 +1,46 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Thumbnail Service API
+  license:
+    name: MIT
+servers:
+  - url: http://lolcats.gg
+paths:
+  /users/me:
+    get:
+      summary: Gets profile of current user
+      operationId: app.get_profile
+      responses:
+        '200':
+          description: User Profile
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
