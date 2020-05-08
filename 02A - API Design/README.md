@@ -1,6 +1,9 @@
-# 01A - Working with boto3
+# 02A - Designing a Web API
 
 In this step you will design an API and write an OpenAPI specification for it.
+
+An API (Application Programming Interface) is a layer of software between an Application and an underlying system. This layer is often designed to provide specific ways in which the underlying system is to be utilized. It is common for APIs to evolve as Application developers request features and bugs are discovered. When releasing updates, API developers must use caution to not make changes in a way that breaks existing Applications that depend on it. 
+
 
 ## Parts
 
@@ -9,6 +12,8 @@ In this step you will design an API and write an OpenAPI specification for it.
 
 
 ## Example
+
+Paste the following to [Online Swagger Editor](https://editor.swagger.io/)
 
 ```
 openapi: "3.0.0"
@@ -59,9 +64,19 @@ components:
           type: string
 ```
 
+The example above is a specification for a Web API for getting a user's profile in which calling `GET /users/me` should return `{ "id": "some_id" }`. If there is an error it will return something like the following:
+
+```
+{
+	"code": 500,
+	"message": "Could not connect to database"
+}
+```
+
 ## Challenge
 
-Write specifications for the following API endpoints:
+1. Write specifications for the following API endpoint:
 
-- `POST /images` takes a filename and returns a presigned url for uploading an image to S3
-- `GET /thumbnails` returns presigned URLs for all images in thumbnails folder
+  - `POST /images` takes a filename and returns a url for uploading an image to S3
+
+2. Generate a javascript client sdk with [OpenApi Generator](https://openapi-generator.tech/) and inspect contents.
