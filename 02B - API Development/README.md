@@ -16,6 +16,17 @@ Implement your API from the previous step using the starter code and your OpenAP
 
 You will want to use `boto3` to generate the presigned URL [[docs](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-presigned-urls.html)]. Read more about what a presigned URL is [here](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html)
 
+```python
+url = s3.generate_presigned_url(
+    'put_object',
+     Params={
+        'Bucket': 'testbucket',
+        'Key': 'outfile.txt',
+    },
+    HttpMethod="PUT",
+)
+```
+
 When creating a presigned URL, the API will take an object name (or s3 key) for the object the URL will be used to upload. Instead of using the filename, autogenerate one using `uuid.uuid4()` for now [[docs](https://docs.python.org/3/library/uuid.html#uuid.uuid4)]. Make sure to keep a record of the random image file keys in your database.
 
 ## About the Starter Code
