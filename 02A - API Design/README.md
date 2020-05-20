@@ -1,19 +1,20 @@
 # 02A - Designing a Web API
 
-In this step you will design an API and write an OpenAPI specification for it.
+In this step you will design a Web API for retrieving presigned URLs for uploading images by writing an OpenAPI specification for it.
 
-An API (Application Programming Interface) is a layer of software between an Application and an underlying system. This layer is often designed to provide specific ways in which the underlying system is to be utilized. It is common for APIs to evolve as Application developers request features and bugs are discovered. When releasing updates, API developers must use caution to not make changes in a way that breaks existing Applications that depend on it. 
+An API (Application Programming Interface) is a layer of software between an Application and an underlying system. This layer is often designed to provide specific ways in which the underlying system is to be utilized. In this challenge the underlying system is your image upload and thumbnail generation microservice, which is presumably a part of some sort of Content Management System like Wordpress, Facebook, iStock, etc.
 
+### A Note on Backwards Compatibility
+
+It is common for APIs to evolve as Application developers request features and bugs are discovered. When releasing updates, API developers must use caution to not make changes in a way that breaks existing Applications that depend on it. Afterall, without the developers you have no customers.
 
 ## Parts
 
 - `OpenAPI` is a standard for writing specifications for APIs [[docs](http://spec.openapis.org/oas/v3.0.3)]
-- `boto3`
-
 
 ## Example
 
-Paste the following to [Online Swagger Editor](https://editor.swagger.io/)
+Paste the following to [Online Swagger Editor](https://editor.swagger.io/). The online editor can be used to validate the specification YAML.
 
 ```
 openapi: "3.0.0"
@@ -27,8 +28,10 @@ servers:
 paths:
   /users/me:
     get:
+      tags:
+        - users
       summary: Gets profile of current user
-      operationId: getProfile
+      operationId: app.get_profile
       responses:
         '200':
           description: User Profile
@@ -64,7 +67,9 @@ components:
           type: string
 ```
 
-The example above is a specification for a Web API for getting a user's profile in which calling `GET /users/me` should return `{ "id": "some_id" }`. If there is an error it will return something like the following:
+The example above is a specification for a Web API for getting a user's profile in which calling `GET /users/me` should return a `User`, with a schema specified in `components`. 
+
+If there is an error it will return something like the following:
 
 ```
 {
@@ -75,8 +80,22 @@ The example above is a specification for a Web API for getting a user's profile 
 
 ## Challenge
 
-1. Write specifications for the following API endpoint:
+Extend the OpenAPI specification above for an endpoint for retrieving a presigned URL. In order to create a presigned URL for uploading images [[boto docs](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.generate_presigned_url)] the API will need to get the image's file name and [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types).
 
-  - `POST /images` takes a filename and returns a url for uploading an image to S3
+For example, for a PNG image `lol.png`, the HTTP request will be the following:
 
-2. Generate a javascript client sdk with [OpenApi Generator](https://openapi-generator.tech/) and inspect contents.
+`GET /images/upload_url?filename=lol.png&image%2Fpng`
+
+The above HTTP request should return `{ "upload_url": "https://blah..." }` with a URL configured for a payload of MIME type of `image/png`.
+
+Hint: In OpenAPI query parameters ([see docs](https://swagger.io/docs/specification/describing-parameters/)) can be specified using the following:
+
+```
+parameters:
+  - in: query
+    name: <key name>
+    description: <description>
+    schema:
+      type: string
+    required: true
+```
