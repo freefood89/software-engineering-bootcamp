@@ -1,0 +1,117 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Thumbnail Service API
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:5000
+paths:
+  /:
+    get:
+      summary: Displays static page.
+      description: Displays the index html page
+      operationId: app.serve_ui
+      responses:
+        '200':
+          description: Successfully loaded html page.
+          content:
+            text/html:
+              schema:
+                type: string
+  /static/{filename}:
+    get:
+      summary: Displays static page.
+      description: Displays the index html page
+      operationId: app.serve_static
+      parameters:
+        - name: filename
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successfully loaded html page.
+          content:
+            text/html:
+              schema:
+                type: string
+  /users/me:
+    get:
+      tags:
+        - users
+      summary: Gets profile of current user
+      operationId: app.get_profile
+      responses:
+        '200':
+          description: User Profile
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /images/upload_url:
+    get:
+      tags:
+        - images
+      summary: Creates a short lived upload url to upload an image to s3
+      operationId: app.get_image_upload_url
+      parameters:
+        - in: query
+          name: filename
+          description: Name of image file
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: type
+          description: MIME type of image file
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Presigned Upload Url
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/ImageUrl"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    ImageUrl:
+      type: object
+      required:
+        - upload_url
+      properties:
+        upload_url:
+          type: string
+    User:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
