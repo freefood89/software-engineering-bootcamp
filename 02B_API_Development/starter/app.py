@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_file
+from flask import Flask, jsonify, request
 import boto3
 
 from openapi_core import create_spec
@@ -18,12 +18,7 @@ AWS_PROFILE = ''
 session = boto3.Session(profile_name=AWS_PROFILE)
 s3 = session.client('s3')
 
-app = Flask(__name__, static_folder='public', static_url_path='/static')
-
-
-@app.route('/')
-def serve_ui():
-    return send_file('public/index.html')
+app = Flask(__name__)
 
 
 @app.route('/users/me', methods=['GET'])
@@ -34,15 +29,10 @@ def get_profile():
         'name': 'Ren'
     })
 
-
-@app.route('/images/upload_url')
-@openapi
-def get_upload_url():
-    # Implement
-
-    return jsonify({
-        'upload_url': ''
-    })
+# @app.route('/images/upload_url', endpoint='images.get_upload_url')
+# @openapi
+# def get_upload_url():
+#     pass
 
 
 if __name__ == '__main__':

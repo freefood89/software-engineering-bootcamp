@@ -5,8 +5,25 @@ In this step you will be developing the API you wrote an OpenAPI specification f
 ## Parts
 
 - `flask` is a Python web framework [[docs](https://flask.palletsprojects.com/)]
-- `connexion` is a wrapper for `flask` for applying OpenAPI specifications on your API [[docs](https://github.com/zalando/connexion)]
+- `openapi_core` is a Python package which helps with implementing clients and servers following OpenAPI specs
 - `boto3`
+
+## More on `openapi_core`
+
+In this project, `openapi_core` is mainly used to make sure the incoming requests and outgoing responses have the proper schema. There are several other python packages that do similar things, but the others were not suitable for use considering the later challenges' needs.
+
+Below is how to access the validated query parameter and request body:
+
+```python
+from flask import request
+
+# query param
+gg = request.openapi.parameters.query['gg']
+gg_with_default = request.openapi.parameters.query.get('gg', 'default_value')
+
+# path param for /gg/<id>
+some_id = request.openapi.parameters.path['id']
+```
 
 ## Challenge
 
