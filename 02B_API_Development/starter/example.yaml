@@ -5,12 +5,12 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://lolcats.gg
+  - url: http://localhost:5000
 paths:
   /users/me:
-    tags:
-      - users
     get:
+      tags:
+        - users
       summary: Gets profile of current user
       operationId: app.get_profile
       responses:
@@ -26,20 +26,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  # Implement upload url endpoint
-  # /images/upload_url:
-  #   get:
 components:
   schemas:
-    # Implement ImageUrl object schema
-    # ImageUrl:
     User:
       type: object
       required:
         - id
       properties:
         id:
-          type: string
+          type: integer
     Error:
       type: object
       required:

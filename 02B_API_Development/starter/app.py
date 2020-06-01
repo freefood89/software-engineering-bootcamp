@@ -26,10 +26,9 @@ app = Flask(__name__)
 def get_profile():
     return jsonify({
         'id': 0,
-        'name': 'Ren'
     })
 
-# @app.route('/images/upload_url', endpoint='images.get_upload_url')
+# @app.route('/images/upload_url', methods=['PUT'])
 # @openapi
 # def get_upload_url():
 #     pass
