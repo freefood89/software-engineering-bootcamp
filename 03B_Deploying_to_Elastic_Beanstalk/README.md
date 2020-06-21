@@ -4,13 +4,24 @@ In this step you will modify and deploy the thumbnail generation service to AWS 
 
 Of the two application types supported by Elastic Beanstalk (web server and worker) the challenge in this step will focus on the worker tier.
 
+## Parts
+
+- AWS ElasticBeanstalk
+- `eb cli` - Elastic Beanstalk dedicated CLI tool
+- Pipenv
+
 ### Elastic Beanstalk Worker Tier
 
 The worker tier is designed to process messages from SQS queues and thus is well suited for the thumbnail service. A daemon process called `sqsd` will be deployed alongside your application and will handle listening for messages from SQS for you. The message will then be sent to your application via an HTTP POST request.
 
-## Parts
+### Pipenv
 
-- `eb cli` - Elastic Beanstalk dedicated CLI tool
+As the name suggests, Pipenv is yet another python package manager. While it is technically a great tool, it's only beginning to gain traction. Your ElasticBeanstalk environment will automatically install your dependencies using Pipenv.
+
+To add more dependencies, use `pipenv install <pkg>`.
+
+Read more about Pipenv [here](https://pipenv.pypa.io/en/latest/) and its use in ElasticBeanstalk [here](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/python-configuration-requirements.html)
+
 
 ## Challenge
 
@@ -60,4 +71,4 @@ You should see that the logged SQS Message body looks different from when you ge
 
 ### Step 5 - Implement
 
-Using the starter code and logged SQS Message body modify the code to generate thumbnails as you have previously done. In this step do not worry about the database aspect of the code. If a file `gg.png` is uploaded simply store its thumbnail as `gg.thumbnail.png` in the appropriate folder.
+Using the starter code and logged SQS Message body modify the code to generate thumbnails as you have previously done. Do not worry about the database aspect of the code. If a file `gg.png` is uploaded simply store its thumbnail as `gg.thumbnail.png` in the appropriate folder.

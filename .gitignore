@@ -130,3 +130,7 @@ dmypy.json
 
 **/solution.py
 **/solution*
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
