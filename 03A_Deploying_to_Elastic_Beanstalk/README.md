@@ -1,4 +1,4 @@
-# 03B - Deploying to AWS Elastic Beanstalk Part 1
+# 03A - Deploying to AWS Elastic Beanstalk Part 1
 
 In this step you will modify and deploy the thumbnail generation service to AWS using Elastic Beanstalk. Elastic Beanstalk is a platform service in AWS that it helps simplify infrastructure for developers. Using this platform, developers can focus on developing their application, rather than having to implement and maintain all of the infrastructure from the ground up,
 
