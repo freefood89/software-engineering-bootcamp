@@ -17,10 +17,16 @@ def require_authentication(func):
 
 
 def get_authorization_link(client_id):
+    '''
+        Generates the authorization link for Github OAuth
+    '''
 	return f'https://github.com/login/oauth/authorize?client_id={client_id}'
 
 
 def get_authorization(client_id, client_secret, code):
+    '''
+        Requests OAuth token from Github
+    '''
     r = requests.post(
         'https://github.com/login/oauth/access_token',
         headers={'accept': 'application/json'},
